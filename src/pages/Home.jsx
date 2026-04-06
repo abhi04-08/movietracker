@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { searchMovies } from '../services/api'
 import MovieCard from '../components/MovieCard'
 import SkeletonCard from '../components/SkeletonCard'
+import { Helmet } from 'react-helmet-async'
 
 const Home = () => {
     const [movies, setMovies] = useState([]);
@@ -19,7 +20,7 @@ const Home = () => {
     });
 
     useEffect(() => {
-        if(!debouncedQuery) {
+        if (!debouncedQuery) {
             setMovies([]);
             return;
         }
@@ -34,30 +35,36 @@ const Home = () => {
         fetchData();
     }, [debouncedQuery]);
 
-  return (
-    <div>
-        <h1 className='text-3xl font-bold mb-6'>Search Movies</h1>
-        <input type="text"
-               value={query}
-               onChange={(e) => setQuery(e.target.value)}
-               placeholder='Search Movies....'
-               className='p-2 dark:border-white rounded-xl text-black w-full border-black' />
-        
-        { loading ? (
-           <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-4'>
-                {Array.from({ length:8}).map((_, index) => (
-                    <SkeletonCard key={index} />
-                ))}
-           </div>
-        ): (
-            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
-                { movies.map((movie) => (
-                    <MovieCard key={movie.imdbID} movie = {movie}/>
-                ))}
+    return (
+        <>
+            <Helmet>
+                <title>CineTracker</title>
+                <meta name="description" content="Search movies in CineTracker" />
+            </Helmet>
+            <div>
+                <h1 className='text-3xl font-bold mb-6'>Search Movies</h1>
+                <input type="text"
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    placeholder='Search Movies....'
+                    className='p-2 dark:border-white rounded-xl text-black w-full border-black' />
+
+                {loading ? (
+                    <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-4'>
+                        {Array.from({ length: 8 }).map((_, index) => (
+                            <SkeletonCard key={index} />
+                        ))}
+                    </div>
+                ) : (
+                    <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
+                        {movies.map((movie) => (
+                            <MovieCard key={movie.imdbID} movie={movie} />
+                        ))}
+                    </div>
+                )}
             </div>
-        )}
-    </div>
-  );
+        </>
+    );
 }
 
 export default Home;
