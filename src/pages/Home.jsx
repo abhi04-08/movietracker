@@ -42,6 +42,12 @@ const Home = () => {
                 <meta name="description" content="Search movies in CineTracker" />
             </Helmet>
             <div>
+                <h1 className='text-xl font-bold text-red-500 mb-6'>Track Movies & Manage Your Watchlist Easily</h1>
+                <p className='text-md font-semibold mb-6'>
+                    CineTracker is a free movie tracker app that helps you manage your watchlist,
+                    save favorite movies, and organize what to watch next. Discover, track, and
+                    never miss your favorite films again.
+                </p>
                 <h1 className='text-3xl font-bold mb-6'>Search Movies</h1>
                 <input type="text"
                     value={query}
